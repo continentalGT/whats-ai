@@ -16,5 +16,8 @@ async def object_detection(file: UploadFile = File(...)):
         image = Image.open(BytesIO(contents))
     except Exception:
         raise HTTPException(status_code=400, detail="Could not read image file")
-    result = detect_objects(image)
+    try:
+        result = detect_objects(image)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Detection failed: {str(e)}")
     return ObjectDetectionResponse(**result)
