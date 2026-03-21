@@ -1,9 +1,21 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import nlp, vision
 from app.core.config import settings
 
-app = FastAPI(title=settings.app_name, version=settings.version)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Pre-warm both models on startup so first request is instant
+    from app.services.nlp_service import get_sentiment_pipeline
+    from app.services.vision_service import get_detection_pipeline
+    get_sentiment_pipeline()
+    get_detection_pipeline()
+    yield
+
+
+app = FastAPI(title=settings.app_name, version=settings.version, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -12,7 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # routers
 app.include_router(nlp.router, prefix="/api/nlp", tags=["NLP"])
