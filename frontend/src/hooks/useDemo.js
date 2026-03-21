@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { postSentiment } from '../services/api'
+import { postSentiment, postObjectDetection } from '../services/api'
 
 export function useDemo(demoSlug) {
   const [result, setResult] = useState(null)
@@ -14,6 +14,8 @@ export function useDemo(demoSlug) {
       let data
       if (demoSlug === 'sentiment') {
         data = await postSentiment(input.text)
+      } else if (demoSlug === 'object-detection') {
+        data = await postObjectDetection(input.file)
       } else {
         throw new Error('Demo not implemented yet')
       }

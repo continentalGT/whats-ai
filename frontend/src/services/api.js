@@ -10,4 +10,13 @@ export async function postSentiment(text) {
   return res.data
 }
 
+export async function postObjectDetection(file) {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await client.post('/api/vision/detect', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
 export default client

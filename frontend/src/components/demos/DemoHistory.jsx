@@ -8,11 +8,21 @@ export default function DemoHistory({ history, demoSlug }) {
       <div className="space-y-3">
         {history.map((item, i) => (
           <div key={i} className="flex items-center justify-between bg-gray-800/40 rounded-lg px-4 py-3">
-            <p className="text-sm text-gray-400 truncate max-w-xs">{item.input.text}</p>
             {demoSlug === 'sentiment' && (
-              <span className={`text-sm font-semibold ml-4 shrink-0 ${getSentimentColor(item.result?.label)}`}>
-                {item.result?.label}
-              </span>
+              <>
+                <p className="text-sm text-gray-400 truncate max-w-xs">{item.input.text}</p>
+                <span className={`text-sm font-semibold ml-4 shrink-0 ${getSentimentColor(item.result?.label)}`}>
+                  {item.result?.label}
+                </span>
+              </>
+            )}
+            {demoSlug === 'object-detection' && (
+              <>
+                <p className="text-sm text-gray-400 truncate max-w-xs">{item.input.file?.name ?? 'image'}</p>
+                <span className="text-sm font-semibold ml-4 shrink-0 text-cyan-400">
+                  {item.result?.count} object{item.result?.count !== 1 ? 's' : ''}
+                </span>
+              </>
             )}
           </div>
         ))}

@@ -30,7 +30,7 @@ export const WORKLOAD_CATEGORIES = [
     description: 'Enable machines to interpret and understand visual information.',
     demos: [
       { slug: 'image-classification', name: 'Image Classification', active: false },
-      { slug: 'object-detection', name: 'Object Detection (YOLO)', active: false },
+      { slug: 'object-detection', name: 'Object Detection (ResNet-50)', active: true },
       { slug: 'image-captioning', name: 'Image Captioning', active: false },
       { slug: 'face-detection', name: 'Face Detection', active: false },
       { slug: 'emotion-detection', name: 'Emotion Detection', active: false },

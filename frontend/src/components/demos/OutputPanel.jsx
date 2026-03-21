@@ -17,6 +17,8 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
           <p className="text-sm">Run the demo to see results here</p>
         </div>
       )}
+
+      {/* Sentiment output */}
       {!loading && !error && result && demoSlug === 'sentiment' && (
         <div className="space-y-4">
           <div className="text-center py-4">
@@ -44,6 +46,55 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Object Detection output */}
+      {!loading && !error && result && demoSlug === 'object-detection' && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-400">
+              {result.count} object{result.count !== 1 ? 's' : ''} detected
+            </span>
+            <span className="text-xs text-gray-600 truncate ml-4">{result.model}</span>
+          </div>
+
+          {result.annotated_image && (
+            <img
+              src={result.annotated_image}
+              alt="Annotated detection result"
+              className="w-full rounded-lg border border-gray-700 shadow-lg"
+            />
+          )}
+
+          {result.detections.length > 0 && (
+            <div>
+              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                Detections
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {result.detections.map((det, i) => (
+                  <div key={i} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-white font-medium capitalize">{det.label}</span>
+                      <span className="text-cyan-400 font-mono text-sm font-semibold">
+                        {(det.score * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-1.5 mb-2">
+                      <div
+                        className="h-1.5 rounded-full bg-cyan-600 transition-all duration-500"
+                        style={{ width: `${(det.score * 100).toFixed(1)}%` }}
+                      />
+                    </div>
+                    <div className="text-xs text-gray-500 font-mono">
+                      ({det.box.xmin}, {det.box.ymin}) → ({det.box.xmax}, {det.box.ymax})
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

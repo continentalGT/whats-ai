@@ -8,3 +8,6 @@ sentencepiece
 protobuf
 pytest
 httpx
+Pillow
+requests
+python-multipart
