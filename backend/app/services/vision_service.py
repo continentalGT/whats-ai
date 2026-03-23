@@ -36,7 +36,7 @@ def get_blip_model():
 def caption_image(image: Image.Image) -> dict:
     processor, model = get_blip_model()
     inputs = processor(image.convert("RGB"), return_tensors="pt")
-    output = model.generate(**inputs)
+    output = model.generate(**inputs, max_new_tokens=50)
     caption = processor.decode(output[0], skip_special_tokens=True)
     return {
         "caption": caption,
