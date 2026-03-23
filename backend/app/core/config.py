@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     version: str = "1.1.0"
     sentiment_model: str = "cardiffnlp/twitter-roberta-base-sentiment-latest"
     detection_model: str = "facebook/detr-resnet-50"
+    captioning_model: str = "Salesforce/blip-image-captioning-base"
     cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
     class Config:

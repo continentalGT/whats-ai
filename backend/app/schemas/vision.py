@@ -20,3 +20,8 @@ class ObjectDetectionResponse(BaseModel):
     count: int
     model: str
     annotated_image: str  # base64-encoded PNG: "data:image/png;base64,..."
+
+
+class ImageCaptioningResponse(BaseModel):
+    caption: str
+    model: str

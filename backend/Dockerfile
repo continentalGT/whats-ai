@@ -16,6 +16,11 @@ from transformers import pipeline; \
 pipeline('object-detection', model='facebook/detr-resnet-50'); \
 print('DETR model downloaded')"
 
+RUN python -c "\
+from transformers import pipeline; \
+pipeline('image-to-text', model='Salesforce/blip-image-captioning-base'); \
+print('BLIP captioning model downloaded')"
+
 # After downloading, lock to offline mode so runtime never calls HuggingFace
 ENV TRANSFORMERS_OFFLINE=1
 ENV HF_DATASETS_OFFLINE=1

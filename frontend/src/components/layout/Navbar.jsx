@@ -16,6 +16,9 @@ export default function Navbar() {
             <Link to="/" className={`text-sm font-medium transition-colors ${location.pathname === '/' ? 'text-indigo-400' : 'text-gray-400 hover:text-white'}`}>
               Home
             </Link>
+            <Link to="/services" className={`text-sm font-medium transition-colors ${location.pathname === '/services' ? 'text-indigo-400' : 'text-gray-400 hover:text-white'}`}>
+              Services
+            </Link>
             <Link to="/about" className={`text-sm font-medium transition-colors ${location.pathname === '/about' ? 'text-indigo-400' : 'text-gray-400 hover:text-white'}`}>
               About
             </Link>

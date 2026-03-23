@@ -97,6 +97,19 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
           )}
         </div>
       )}
+
+      {/* Image Captioning output */}
+      {!loading && !error && result && demoSlug === 'image-captioning' && (
+        <div className="space-y-4">
+          <div className="bg-gray-800/50 rounded-lg p-5">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Generated Caption</p>
+            <p className="text-white text-lg leading-relaxed font-medium">
+              "{result.caption}"
+            </p>
+          </div>
+          <p className="text-xs text-gray-600 text-right truncate">{result.model}</p>
+        </div>
+      )}
     </div>
   )
 }

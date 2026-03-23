@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import CategoryPage from './pages/CategoryPage'
 import DemoPage from './pages/DemoPage'
 import AboutPage from './pages/AboutPage'
+import ServicesPage from './pages/ServicesPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/category/:id" element={<CategoryPage />} />
           <Route path="/demo/:categoryId/:demoSlug" element={<DemoPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

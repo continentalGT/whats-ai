@@ -25,8 +25,8 @@ export default function HomePage() {
         {[
           { label: 'Categories', value: '8' },
           { label: 'Total Demos', value: '75+' },
-          { label: 'Live Now', value: '2' },
-          { label: 'Coming Soon', value: '73+' },
+          { label: 'Live Now', value: '3' },
+          { label: 'Coming Soon', value: '72+' },
         ].map(stat => (
           <div key={stat.label} className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-4 text-center">
             <div className="text-3xl font-bold text-indigo-400">{stat.value}</div>

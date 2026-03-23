@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   nlpSummarize: `${BASE_URL}/nlp/summarize`,
   visionClassify: `${BASE_URL}/vision/classify`,
   visionDetect: `${BASE_URL}/vision/detect`,
+  visionCaption: `${BASE_URL}/vision/caption`,
   speechTranscribe: `${BASE_URL}/speech/transcribe`,
   mlPredict: `${BASE_URL}/ml/predict`,
   documentOcr: `${BASE_URL}/document/ocr`,

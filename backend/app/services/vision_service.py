@@ -5,6 +5,7 @@ import base64
 from io import BytesIO
 
 _detection_pipeline = None
+_captioning_pipeline = None
 
 COLORS = [
     "#CC1111", "#0D7377", "#0055AA", "#228833", "#BB8800",
@@ -20,6 +21,26 @@ def get_detection_pipeline():
             model=settings.detection_model
         )
     return _detection_pipeline
+
+
+def get_captioning_pipeline():
+    global _captioning_pipeline
+    if _captioning_pipeline is None:
+        _captioning_pipeline = pipeline(
+            "image-to-text",
+            model=settings.captioning_model
+        )
+    return _captioning_pipeline
+
+
+def caption_image(image: Image.Image) -> dict:
+    model = get_captioning_pipeline()
+    results = model(image.convert("RGB"))
+    caption = results[0]["generated_text"] if results else ""
+    return {
+        "caption": caption,
+        "model": settings.captioning_model,
+    }
 
 
 def detect_objects(image: Image.Image, threshold: float = 0.9) -> dict:

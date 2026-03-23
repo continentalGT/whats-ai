@@ -26,9 +26,16 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
     onRun({ file })
   }
 
-  if (demoSlug === 'object-detection') {
-    // Compact bar shown after a result exists
-    if (hasResult) {
+  if (demoSlug === 'object-detection' || demoSlug === 'image-captioning') {
+    const isCaption = demoSlug === 'image-captioning'
+    const accentBorder = isCaption ? 'border-violet-600' : 'border-cyan-600'
+    const accentText = isCaption ? 'text-violet-400' : 'text-cyan-400'
+    const runLabel = isCaption ? 'Caption Image ▶' : 'Detect Objects ▶'
+    const loadingLabel = isCaption ? 'Captioning...' : 'Detecting...'
+
+    // Compact bar shown after a result exists — only for object-detection
+    // (image-captioning output is text only, so keep the full image preview visible)
+    if (hasResult && !isCaption) {
       return (
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-4">
           <form onSubmit={handleImageSubmit} className="flex items-center gap-3">
@@ -42,7 +49,7 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
               <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
             </label>
             <Button type="submit" disabled={loading || !file} variant="secondary">
-              {loading ? 'Detecting...' : 'Re-run ▶'}
+              {loading ? loadingLabel : 'Re-run ▶'}
             </Button>
           </form>
         </div>
@@ -56,14 +63,14 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
         <form onSubmit={handleImageSubmit} className="space-y-4">
           <label className="block cursor-pointer">
             {preview ? (
-              <div className="relative rounded-lg overflow-hidden border-2 border-cyan-600">
+              <div className={`relative rounded-lg overflow-hidden border-2 ${accentBorder}`}>
                 <img src={preview} alt="Selected" className="w-full object-contain max-h-72" />
-                <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-xs text-cyan-400 px-3 py-1.5 truncate">
+                <div className={`absolute bottom-0 left-0 right-0 bg-black/60 text-xs ${accentText} px-3 py-1.5 truncate`}>
                   {file.name} — click to change
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-600 hover:border-cyan-600 rounded-lg transition-colors text-gray-500">
+              <div className={`flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-600 hover:${accentBorder} rounded-lg transition-colors text-gray-500`}>
                 <p className="text-3xl mb-2">🖼️</p>
                 <p className="text-sm">Click to upload an image</p>
                 <p className="text-xs mt-1">PNG, JPG, WEBP supported</p>
@@ -71,9 +78,17 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
             )}
             <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
           </label>
-          <Button type="submit" disabled={loading || !file} className="w-full justify-center">
-            {loading ? 'Detecting...' : 'Detect Objects ▶'}
-          </Button>
+          <div className="flex gap-2">
+            <Button type="submit" disabled={loading || !file} className="flex-1 justify-center">
+              {loading ? loadingLabel : runLabel}
+            </Button>
+            {hasResult && isCaption && (
+              <label className="cursor-pointer flex items-center justify-center px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-sm text-gray-300 hover:border-violet-500 hover:text-violet-400 transition-colors shrink-0">
+                Upload New
+                <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+              </label>
+            )}
+          </div>
         </form>
       </div>
     )

@@ -31,7 +31,7 @@ export const WORKLOAD_CATEGORIES = [
     demos: [
       { slug: 'image-classification', name: 'Image Classification', active: false },
       { slug: 'object-detection', name: 'Object Detection (ResNet-50)', active: true },
-      { slug: 'image-captioning', name: 'Image Captioning', active: false },
+      { slug: 'image-captioning', name: 'Image Captioning (BLIP)', active: true },
       { slug: 'face-detection', name: 'Face Detection', active: false },
       { slug: 'emotion-detection', name: 'Emotion Detection', active: false },
       { slug: 'image-generation', name: 'Image Generation', active: false },

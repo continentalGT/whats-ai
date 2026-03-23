@@ -24,6 +24,14 @@ export default function DemoHistory({ history, demoSlug }) {
                 </span>
               </>
             )}
+            {demoSlug === 'image-captioning' && (
+              <>
+                <p className="text-sm text-gray-400 truncate max-w-xs">{item.input.file?.name ?? 'image'}</p>
+                <span className="text-sm font-semibold ml-4 shrink-0 text-violet-400 truncate max-w-xs">
+                  {item.result?.caption}
+                </span>
+              </>
+            )}
           </div>
         ))}
       </div>

@@ -19,4 +19,13 @@ export async function postObjectDetection(file) {
   return res.data
 }
 
+export async function postImageCaptioning(file) {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await client.post('/api/vision/caption', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
 export default client
