@@ -1,5 +1,5 @@
 fastapi
-sentence-transformers
+sentence-transformers>=2.2.0
 uvicorn[standard]
 pydantic
 pydantic-settings
