@@ -17,8 +17,9 @@ pipeline('object-detection', model='facebook/detr-resnet-50'); \
 print('DETR model downloaded')"
 
 RUN python -c "\
-from transformers import pipeline; \
-pipeline('image-to-text', model='Salesforce/blip-image-captioning-base'); \
+from transformers import BlipProcessor, BlipForConditionalGeneration; \
+BlipProcessor.from_pretrained('Salesforce/blip-image-captioning-base'); \
+BlipForConditionalGeneration.from_pretrained('Salesforce/blip-image-captioning-base'); \
 print('BLIP captioning model downloaded')"
 
 # After downloading, lock to offline mode so runtime never calls HuggingFace

@@ -1,11 +1,12 @@
-from transformers import pipeline
+from transformers import pipeline, BlipProcessor, BlipForConditionalGeneration
 from app.core.config import settings
 from PIL import Image, ImageDraw
 import base64
 from io import BytesIO
 
 _detection_pipeline = None
-_captioning_pipeline = None
+_blip_processor = None
+_blip_model = None
 
 COLORS = [
     "#CC1111", "#0D7377", "#0055AA", "#228833", "#BB8800",
@@ -23,20 +24,20 @@ def get_detection_pipeline():
     return _detection_pipeline
 
 
-def get_captioning_pipeline():
-    global _captioning_pipeline
-    if _captioning_pipeline is None:
-        _captioning_pipeline = pipeline(
-            "image-to-text",
-            model=settings.captioning_model
-        )
-    return _captioning_pipeline
+def get_blip_model():
+    global _blip_processor, _blip_model
+    if _blip_processor is None:
+        _blip_processor = BlipProcessor.from_pretrained(settings.captioning_model)
+    if _blip_model is None:
+        _blip_model = BlipForConditionalGeneration.from_pretrained(settings.captioning_model)
+    return _blip_processor, _blip_model
 
 
 def caption_image(image: Image.Image) -> dict:
-    model = get_captioning_pipeline()
-    results = model(image.convert("RGB"))
-    caption = results[0]["generated_text"] if results else ""
+    processor, model = get_blip_model()
+    inputs = processor(image.convert("RGB"), return_tensors="pt")
+    output = model.generate(**inputs)
+    caption = processor.decode(output[0], skip_special_tokens=True)
     return {
         "caption": caption,
         "model": settings.captioning_model,
