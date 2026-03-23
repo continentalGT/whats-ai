@@ -9,6 +9,7 @@ export const WORKLOAD_CATEGORIES = [
     description: 'Process, understand, and generate human language with AI.',
     demos: [
       { slug: 'sentiment', name: 'Sentiment Analysis', active: true },
+      { slug: 'sentence-similarity', name: 'Sentence Similarity', active: true },
       { slug: 'text-classification', name: 'Text Classification', active: false },
       { slug: 'ner', name: 'Named Entity Recognition', active: false },
       { slug: 'topic-modeling', name: 'Topic Modeling', active: false },

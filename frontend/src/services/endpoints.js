@@ -3,6 +3,7 @@ const BASE_URL = '/api'
 export const ENDPOINTS = {
   workloads: `${BASE_URL}/workloads`,
   nlpSentiment: `${BASE_URL}/nlp/sentiment`,
+  nlpSimilarity: `${BASE_URL}/nlp/similarity`,
   nlpNer: `${BASE_URL}/nlp/ner`,
   nlpSummarize: `${BASE_URL}/nlp/summarize`,
   visionClassify: `${BASE_URL}/vision/classify`,

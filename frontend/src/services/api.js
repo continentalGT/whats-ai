@@ -10,6 +10,11 @@ export async function postSentiment(text) {
   return res.data
 }
 
+export async function postSentenceSimilarity(sentences, query) {
+  const res = await client.post('/api/nlp/similarity', { sentences, query })
+  return res.data
+}
+
 export async function postObjectDetection(file) {
   const form = new FormData()
   form.append('file', file)

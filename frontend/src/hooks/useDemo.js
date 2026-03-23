@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { postSentiment, postObjectDetection, postImageCaptioning } from '../services/api'
+import { postSentiment, postObjectDetection, postImageCaptioning, postSentenceSimilarity } from '../services/api'
 
 export function useDemo(demoSlug) {
   const [result, setResult] = useState(null)
@@ -18,6 +18,8 @@ export function useDemo(demoSlug) {
         data = await postObjectDetection(input.file)
       } else if (demoSlug === 'image-captioning') {
         data = await postImageCaptioning(input.file)
+      } else if (demoSlug === 'sentence-similarity') {
+        data = await postSentenceSimilarity(input.sentences, input.query)
       } else {
         throw new Error('Demo not implemented yet')
       }

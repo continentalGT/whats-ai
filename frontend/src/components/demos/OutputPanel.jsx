@@ -98,6 +98,38 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
         </div>
       )}
 
+      {/* Sentence Similarity output */}
+      {!loading && !error && result && demoSlug === 'sentence-similarity' && (
+        <div className="space-y-4">
+          <div className="bg-gray-800/50 rounded-lg px-4 py-3 text-sm">
+            <span className="text-gray-500 text-xs uppercase tracking-wider">Query  </span>
+            <span className="text-violet-300 font-medium">"{result.query}"</span>
+          </div>
+          <div className="space-y-3">
+            {result.results.map((item, i) => {
+              const pct = (item.score * 100).toFixed(1)
+              const barColor = item.score >= 0.7 ? 'bg-green-500' : item.score >= 0.4 ? 'bg-yellow-500' : 'bg-red-500'
+              const scoreColor = item.score >= 0.7 ? 'text-green-400' : item.score >= 0.4 ? 'text-yellow-400' : 'text-red-400'
+              return (
+                <div key={i} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-4">
+                  <div className="flex justify-between items-start mb-2 gap-3">
+                    <p className="text-white text-sm leading-relaxed">"{item.sentence}"</p>
+                    <span className={`font-mono font-bold text-sm shrink-0 ${scoreColor}`}>{pct}%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-1.5">
+                    <div
+                      className={`h-1.5 rounded-full transition-all duration-500 ${barColor}`}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <p className="text-xs text-gray-600 text-right">{result.model}</p>
+        </div>
+      )}
+
       {/* Image Captioning output */}
       {!loading && !error && result && demoSlug === 'image-captioning' && (
         <div className="space-y-4">

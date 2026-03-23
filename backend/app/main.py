@@ -8,9 +8,10 @@ from app.core.config import settings
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Pre-warm both models on startup so first request is instant
-    from app.services.nlp_service import get_sentiment_pipeline
+    from app.services.nlp_service import get_sentiment_pipeline, get_embedding_model
     from app.services.vision_service import get_detection_pipeline, get_blip_model
     get_sentiment_pipeline()
+    get_embedding_model()
     get_detection_pipeline()
     get_blip_model()
     yield

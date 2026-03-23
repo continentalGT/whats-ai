@@ -5,6 +5,8 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
   const [text, setText] = useState('')
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState(null)
+  const [sentences, setSentences] = useState(['', '', ''])
+  const [query, setQuery] = useState('')
 
   function handleTextSubmit(e) {
     e.preventDefault()
@@ -24,6 +26,55 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
     e.preventDefault()
     if (!file) return
     onRun({ file })
+  }
+
+  if (demoSlug === 'sentence-similarity') {
+    function handleSentenceChange(i, value) {
+      setSentences(prev => prev.map((s, idx) => idx === i ? value : s))
+    }
+    function handleSubmit(e) {
+      e.preventDefault()
+      const filled = sentences.filter(s => s.trim())
+      if (filled.length === 0 || !query.trim()) return
+      onRun({ sentences, query })
+    }
+    return (
+      <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-6">
+        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Input</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <p className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Sentences to compare</p>
+            {sentences.map((s, i) => (
+              <input
+                key={i}
+                type="text"
+                value={s}
+                onChange={e => handleSentenceChange(i, e.target.value)}
+                placeholder={`Sentence ${i + 1}`}
+                className="w-full bg-gray-800/60 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all mb-2 text-sm"
+              />
+            ))}
+          </div>
+          <div>
+            <p className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Query sentence</p>
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Enter the sentence to compare against..."
+              className="w-full bg-gray-800/60 border border-violet-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-violet-400 focus:ring-1 focus:ring-violet-400 transition-all text-sm"
+            />
+          </div>
+          <Button
+            type="submit"
+            disabled={loading || sentences.every(s => !s.trim()) || !query.trim()}
+            className="w-full justify-center"
+          >
+            {loading ? 'Computing...' : 'Compare Sentences ▶'}
+          </Button>
+        </form>
+      </div>
+    )
   }
 
   if (demoSlug === 'object-detection' || demoSlug === 'image-captioning') {

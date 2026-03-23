@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     sentiment_model: str = "cardiffnlp/twitter-roberta-base-sentiment-latest"
     detection_model: str = "facebook/detr-resnet-50"
     captioning_model: str = "Salesforce/blip-image-captioning-base"
+    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
     class Config:

@@ -16,6 +16,13 @@ const LIVE_SERVICES = [
         model: 'cardiffnlp/twitter-roberta-base-sentiment-latest',
         input: 'Text',
       },
+      {
+        slug: 'sentence-similarity',
+        name: 'Sentence Similarity',
+        description: 'Enter 3 sentences and a query — see how closely each sentence matches using semantic embeddings.',
+        model: 'sentence-transformers/all-MiniLM-L6-v2',
+        input: 'Text',
+      },
     ],
   },
   {
@@ -58,15 +65,15 @@ export default function ServicesPage() {
       {/* Stats row */}
       <div className="flex gap-4 mb-12">
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl px-6 py-4 text-center">
-          <div className="text-3xl font-bold text-indigo-400">3</div>
+          <div className="text-3xl font-bold text-indigo-400">4</div>
           <div className="text-sm text-gray-400 mt-1">Live Now</div>
         </div>
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl px-6 py-4 text-center">
           <div className="text-3xl font-bold text-indigo-400">2</div>
-          <div className="text-sm text-gray-400 mt-1">Categories</div>
+          <div className="text-sm text-gray-400 mt-1">Categories Active</div>
         </div>
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl px-6 py-4 text-center">
-          <div className="text-3xl font-bold text-indigo-400">72+</div>
+          <div className="text-3xl font-bold text-indigo-400">71+</div>
           <div className="text-sm text-gray-400 mt-1">Coming Soon</div>
         </div>
       </div>
