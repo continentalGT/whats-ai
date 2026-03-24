@@ -21,12 +21,8 @@ from huggingface_hub import snapshot_download; \
 snapshot_download(repo_id='Salesforce/blip-image-captioning-base'); \
 print('BLIP captioning model downloaded')"
 
-RUN python -c "\
-from sentence_transformers import SentenceTransformer; \
-SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2'); \
-print('Sentence transformer model downloaded')"
-
-# After downloading, lock to offline mode so runtime never calls HuggingFace
+# Sentence similarity now uses Azure AI Foundry (no local model needed)
+# Lock HuggingFace to offline mode for the remaining local models
 ENV TRANSFORMERS_OFFLINE=1
 ENV HF_DATASETS_OFFLINE=1
 

@@ -1,5 +1,4 @@
 fastapi
-sentence-transformers>=2.2.0
 uvicorn[standard]
 pydantic
 pydantic-settings
@@ -14,3 +13,5 @@ httpx
 Pillow
 requests
 python-multipart
+numpy
+azure-ai-inference
