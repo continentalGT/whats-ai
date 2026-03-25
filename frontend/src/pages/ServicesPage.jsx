@@ -20,7 +20,7 @@ const LIVE_SERVICES = [
         slug: 'sentence-similarity',
         name: 'Sentence Similarity',
         description: 'Enter 3 sentences and a query — see how closely each sentence matches using semantic embeddings.',
-        model: 'sentence-transformers/all-MiniLM-L6-v2',
+        model: 'azure-foundry/text-embedding-3-small',
         input: 'Text',
       },
     ],
@@ -49,6 +49,72 @@ const LIVE_SERVICES = [
       },
     ],
   },
+  {
+    category: 'Search Algorithms',
+    categorySlug: 'search',
+    icon: '🔍',
+    color: 'from-emerald-600 to-teal-600',
+    borderColor: 'border-emerald-500',
+    badgeColor: 'bg-emerald-900/40 text-emerald-300 border-emerald-700',
+    demos: [
+      {
+        slug: 'semantic-search',
+        name: 'Semantic Search',
+        description: 'Enter 5 sentences, choose k, and a query — returns top-k semantically closest results using embeddings.',
+        model: 'azure-foundry/text-embedding-3-small',
+        input: 'Text',
+      },
+      {
+        slug: 'keyword-search',
+        name: 'Keyword Search',
+        description: 'Exact keyword matching across multiple documents with highlighted occurrences and positions.',
+        model: 'Pure Python (stdlib)',
+        input: 'Text',
+      },
+      {
+        slug: 'linear-search',
+        name: 'Linear Search',
+        description: 'Step-by-step visualization of sequential search through an unsorted list.',
+        model: 'Pure Python (stdlib)',
+        input: 'Text',
+      },
+      {
+        slug: 'binary-search',
+        name: 'Binary Search',
+        description: 'See how binary search halves the search space at every step on a sorted array.',
+        model: 'Pure Python (stdlib)',
+        input: 'Numbers',
+      },
+      {
+        slug: 'heuristic-search',
+        name: 'Heuristic Search (A*)',
+        description: 'A* pathfinding on the Romania map using straight-line distance as the heuristic.',
+        model: 'Pure Python A*',
+        input: 'City selection',
+      },
+      {
+        slug: 'fuzzy-search',
+        name: 'Fuzzy Search',
+        description: 'Finds approximate matches even with typos using Levenshtein-based similarity scoring.',
+        model: 'Python difflib (stdlib)',
+        input: 'Text',
+      },
+      {
+        slug: 'full-text-search',
+        name: 'Full-Text Search',
+        description: 'TF-IDF ranking across multiple documents — see relevance scores and matched terms.',
+        model: 'Pure Python TF-IDF',
+        input: 'Text',
+      },
+      {
+        slug: 'faceted-search',
+        name: 'Faceted Search',
+        description: 'Filter a product catalog by multiple attributes simultaneously using toggle chips.',
+        model: 'Pure Python',
+        input: 'Filter selection',
+      },
+    ],
+  },
 ]
 
 export default function ServicesPage() {
@@ -65,11 +131,11 @@ export default function ServicesPage() {
       {/* Stats row */}
       <div className="flex gap-4 mb-12">
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl px-6 py-4 text-center">
-          <div className="text-3xl font-bold text-indigo-400">4</div>
+          <div className="text-3xl font-bold text-indigo-400">12</div>
           <div className="text-sm text-gray-400 mt-1">Live Now</div>
         </div>
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl px-6 py-4 text-center">
-          <div className="text-3xl font-bold text-indigo-400">2</div>
+          <div className="text-3xl font-bold text-indigo-400">3</div>
           <div className="text-sm text-gray-400 mt-1">Categories Active</div>
         </div>
         <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl px-6 py-4 text-center">

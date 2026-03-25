@@ -15,7 +15,7 @@ export default function HomePage() {
           AI Workloads Demo
         </h1>
         <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-          Explore and interact with live AI demos across 8 categories — from NLP to Agentic AI.
+          Explore and interact with live AI demos across 9 categories — from NLP to Search Algorithms.
         </p>
         <SearchBar value={query} onChange={setQuery} />
       </div>
@@ -23,9 +23,9 @@ export default function HomePage() {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
         {[
-          { label: 'Categories', value: '8' },
-          { label: 'Total Demos', value: '75+' },
-          { label: 'Live Now', value: '4' },
+          { label: 'Categories', value: '9' },
+          { label: 'Total Demos', value: '83+' },
+          { label: 'Live Now', value: '12' },
           { label: 'Coming Soon', value: '71+' },
         ].map(stat => (
           <div key={stat.label} className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-4 text-center">
