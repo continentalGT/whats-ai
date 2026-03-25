@@ -46,14 +46,16 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.ACR_LOGIN_SERVER }}/frontend:cache
           cache-to: type=registry,ref=${{ secrets.ACR_LOGIN_SERVER }}/frontend:cache,mode=max
 
-      - name: Deploy Backend to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: whatsai-backend
-          images: ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
+      - name: Deploy Backend to Azure Container Apps
+        run: |
+          az containerapp update \
+            --name whatsai-backend \
+            --resource-group whats-ai \
+            --image ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest
 
-      - name: Deploy Frontend to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: whatsai-frontend
-          images: ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
+      - name: Deploy Frontend to Azure Container Apps
+        run: |
+          az containerapp update \
+            --name whatsai-frontend \
+            --resource-group whats-ai \
+            --image ${{ secrets.ACR_LOGIN_SERVER }}/frontend:latest
