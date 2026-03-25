@@ -33,4 +33,45 @@ export async function postImageCaptioning(file) {
   return res.data
 }
 
+// ── Search ───────────────────────────────────────────────────
+export async function postSemanticSearch(sentences, query, k) {
+  const res = await client.post('/api/search/semantic', { sentences, query, k })
+  return res.data
+}
+
+export async function postKeywordSearch(documents, keyword, case_sensitive) {
+  const res = await client.post('/api/search/keyword', { documents, keyword, case_sensitive })
+  return res.data
+}
+
+export async function postLinearSearch(items, target) {
+  const res = await client.post('/api/search/linear', { items, target })
+  return res.data
+}
+
+export async function postBinarySearch(items, target) {
+  const res = await client.post('/api/search/binary', { items, target })
+  return res.data
+}
+
+export async function postHeuristicSearch(start, goal) {
+  const res = await client.post('/api/search/heuristic', { start, goal })
+  return res.data
+}
+
+export async function postFuzzySearch(items, query, threshold) {
+  const res = await client.post('/api/search/fuzzy', { items, query, threshold })
+  return res.data
+}
+
+export async function postFullTextSearch(documents, query) {
+  const res = await client.post('/api/search/fulltext', { documents, query })
+  return res.data
+}
+
+export async function postFacetedSearch(items, filters) {
+  const res = await client.post('/api/search/faceted', { items, filters })
+  return res.data
+}
+
 export default client

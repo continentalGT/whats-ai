@@ -1,5 +1,9 @@
 import { useState } from 'react'
-import { postSentiment, postObjectDetection, postImageCaptioning, postSentenceSimilarity } from '../services/api'
+import {
+  postSentiment, postObjectDetection, postImageCaptioning, postSentenceSimilarity,
+  postSemanticSearch, postKeywordSearch, postLinearSearch, postBinarySearch,
+  postHeuristicSearch, postFuzzySearch, postFullTextSearch, postFacetedSearch,
+} from '../services/api'
 
 export function useDemo(demoSlug) {
   const [result, setResult] = useState(null)
@@ -20,6 +24,22 @@ export function useDemo(demoSlug) {
         data = await postImageCaptioning(input.file)
       } else if (demoSlug === 'sentence-similarity') {
         data = await postSentenceSimilarity(input.sentences, input.query)
+      } else if (demoSlug === 'semantic-search') {
+        data = await postSemanticSearch(input.sentences, input.query, input.k)
+      } else if (demoSlug === 'keyword-search') {
+        data = await postKeywordSearch(input.documents, input.keyword, input.caseSensitive)
+      } else if (demoSlug === 'linear-search') {
+        data = await postLinearSearch(input.items, input.target)
+      } else if (demoSlug === 'binary-search') {
+        data = await postBinarySearch(input.items, input.target)
+      } else if (demoSlug === 'heuristic-search') {
+        data = await postHeuristicSearch(input.start, input.goal)
+      } else if (demoSlug === 'fuzzy-search') {
+        data = await postFuzzySearch(input.items, input.query, input.threshold)
+      } else if (demoSlug === 'full-text-search') {
+        data = await postFullTextSearch(input.documents, input.query)
+      } else if (demoSlug === 'faceted-search') {
+        data = await postFacetedSearch(input.items, input.filters)
       } else {
         throw new Error('Demo not implemented yet')
       }
