@@ -426,6 +426,45 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
     )
   }
 
+  if (demoSlug === 'ocr') {
+    return (
+      <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-6">
+        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Input</h3>
+        <p className="text-xs text-gray-500 mb-4">Upload an image containing text — printed, handwritten, or mixed. Azure AI Vision will extract all readable text.</p>
+        <form onSubmit={handleImageSubmit} className="space-y-4">
+          <label className="block cursor-pointer">
+            {preview ? (
+              <div className="relative rounded-lg overflow-hidden border-2 border-orange-600">
+                <img src={preview} alt="Selected" className="w-full object-contain max-h-72" />
+                <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-xs text-orange-400 px-3 py-1.5 truncate">
+                  {file.name} — click to change
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-600 hover:border-orange-600 rounded-lg transition-colors text-gray-500">
+                <p className="text-3xl mb-2">📄</p>
+                <p className="text-sm">Click to upload an image</p>
+                <p className="text-xs mt-1">PNG, JPG, WEBP — documents, receipts, signs, handwriting</p>
+              </div>
+            )}
+            <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+          </label>
+          <div className="flex gap-2">
+            <Button type="submit" disabled={loading || !file} className="flex-1 justify-center">
+              {loading ? 'Extracting Text...' : 'Extract Text ▶'}
+            </Button>
+            {preview && (
+              <label className="cursor-pointer flex items-center justify-center px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-sm text-gray-300 hover:border-orange-500 hover:text-orange-400 transition-colors shrink-0">
+                Upload New
+                <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+              </label>
+            )}
+          </div>
+        </form>
+      </div>
+    )
+  }
+
   if (demoSlug === 'object-detection' || demoSlug === 'image-captioning') {
     const isCaption = demoSlug === 'image-captioning'
     const accentBorder = isCaption ? 'border-violet-600' : 'border-cyan-600'

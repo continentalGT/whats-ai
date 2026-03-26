@@ -6,6 +6,8 @@ import CategoryPage from './pages/CategoryPage'
 import DemoPage from './pages/DemoPage'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
+import ShopPage from './pages/ShopPage'
+import ContactPage from './pages/ContactPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
@@ -19,6 +21,8 @@ export default function App() {
           <Route path="/demo/:categoryId/:demoSlug" element={<DemoPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

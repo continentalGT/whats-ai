@@ -363,6 +363,61 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
         </div>
       )}
 
+      {/* ── OCR output ── */}
+      {!loading && !error && result && demoSlug === 'ocr' && (
+        <div className="space-y-5">
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-gray-400"><span className="text-orange-400 font-bold">{result.line_count}</span> line{result.line_count !== 1 ? 's' : ''}</span>
+            <span className="text-gray-400"><span className="text-orange-400 font-bold">{result.word_count}</span> word{result.word_count !== 1 ? 's' : ''}</span>
+            <span className="text-xs text-gray-600 ml-auto truncate">{result.model}</span>
+          </div>
+
+          {result.full_text ? (
+            <>
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Extracted Text</p>
+                <div className="bg-gray-800/60 border border-gray-700 rounded-lg p-4 max-h-48 overflow-y-auto">
+                  <pre className="text-white text-sm leading-relaxed whitespace-pre-wrap font-sans">{result.full_text}</pre>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Lines with Confidence</p>
+                <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                  {result.blocks.flatMap((block, bi) =>
+                    block.lines.map((line, li) => (
+                      <div key={`${bi}-${li}`} className="bg-gray-800/50 border border-gray-700/50 rounded-lg px-4 py-2.5">
+                        <div className="flex justify-between items-start gap-3 mb-1.5">
+                          <p className="text-white text-sm leading-snug">{line.text}</p>
+                          {line.confidence != null && (
+                            <span className={`font-mono text-xs font-semibold shrink-0 ${line.confidence >= 0.9 ? 'text-green-400' : line.confidence >= 0.7 ? 'text-yellow-400' : 'text-orange-400'}`}>
+                              {(line.confidence * 100).toFixed(1)}%
+                            </span>
+                          )}
+                        </div>
+                        {line.confidence != null && (
+                          <div className="w-full bg-gray-700 rounded-full h-1">
+                            <div
+                              className={`h-1 rounded-full transition-all duration-500 ${line.confidence >= 0.9 ? 'bg-green-500' : line.confidence >= 0.7 ? 'bg-yellow-500' : 'bg-orange-500'}`}
+                              style={{ width: `${(line.confidence * 100).toFixed(1)}%` }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="text-center text-gray-500 py-6">
+              <p className="text-2xl mb-2">🔍</p>
+              <p className="text-sm">No text detected in this image</p>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── Faceted Search output ── */}
       {!loading && !error && result && demoSlug === 'faceted-search' && (
         <div className="space-y-4">

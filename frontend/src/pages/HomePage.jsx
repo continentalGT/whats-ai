@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useWorkloads } from '../hooks/useWorkloads'
 import CategoryCard from '../components/workloads/CategoryCard'
 import SearchBar from '../components/workloads/SearchBar'
+import DidYouKnow from '../components/common/DidYouKnow'
 
 export default function HomePage() {
   const [query, setQuery] = useState('')
@@ -17,7 +18,12 @@ export default function HomePage() {
         <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
           Explore and interact with live AI demos across 9 categories — from NLP to Search Algorithms.
         </p>
-        <SearchBar value={query} onChange={setQuery} />
+        <div className="relative max-w-xl mx-auto">
+          <SearchBar value={query} onChange={setQuery} />
+          <div className="absolute -right-20 top-1/2 -translate-y-1/2">
+            <DidYouKnow />
+          </div>
+        </div>
       </div>
 
       {/* Stats */}

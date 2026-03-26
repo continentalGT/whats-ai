@@ -3,6 +3,7 @@ import {
   postSentiment, postObjectDetection, postImageCaptioning, postSentenceSimilarity,
   postSemanticSearch, postKeywordSearch, postLinearSearch, postBinarySearch,
   postHeuristicSearch, postFuzzySearch, postFullTextSearch, postFacetedSearch,
+  postOcr,
 } from '../services/api'
 
 export function useDemo(demoSlug) {
@@ -40,6 +41,8 @@ export function useDemo(demoSlug) {
         data = await postFullTextSearch(input.documents, input.query)
       } else if (demoSlug === 'faceted-search') {
         data = await postFacetedSearch(input.items, input.filters)
+      } else if (demoSlug === 'ocr') {
+        data = await postOcr(input.file)
       } else {
         throw new Error('Demo not implemented yet')
       }
