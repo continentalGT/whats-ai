@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
 import ShopPage from './pages/ShopPage'
 import ContactPage from './pages/ContactPage'
+import TrainPage from './pages/TrainPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/train" element={<TrainPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

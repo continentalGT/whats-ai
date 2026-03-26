@@ -30,7 +30,7 @@ export const WORKLOAD_CATEGORIES = [
     borderColor: 'border-cyan-500',
     description: 'Enable machines to interpret and understand visual information.',
     demos: [
-      { slug: 'image-classification', name: 'Image Classification', active: false },
+      { slug: 'image-classification', name: 'Image Classification (ResNet-50)', active: true },
       { slug: 'object-detection', name: 'Object Detection (ResNet-50)', active: true },
       { slug: 'image-captioning', name: 'Image Captioning (BLIP)', active: true },
       { slug: 'face-detection', name: 'Face Detection', active: false },
@@ -97,7 +97,8 @@ export const WORKLOAD_CATEGORIES = [
     borderColor: 'border-yellow-500',
     description: 'Neural networks from CNNs to Transformers and GANs.',
     demos: [
-      { slug: 'cnn', name: 'Convolutional Neural Networks', active: false },
+      { slug: 'cnn', name: 'Image Classification via CNN (ResNet-50)', active: true },
+      { slug: 'custom-cnn', name: 'Custom CNN Trainer', active: true },
       { slug: 'rnn-lstm', name: 'RNN / LSTM Networks', active: false },
       { slug: 'transformer', name: 'Transformer Models', active: false },
       { slug: 'bert', name: 'BERT-based Models', active: false },

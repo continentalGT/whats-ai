@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { WORKLOAD_CATEGORIES } from '../utils/constants'
 import DemoRunner from '../components/demos/DemoRunner'
+import TrainPage from './TrainPage'
 import NotFoundPage from './NotFoundPage'
 import Badge from '../components/common/Badge'
 
@@ -22,6 +23,10 @@ export default function DemoPage() {
         </Link>
       </div>
     )
+  }
+
+  if (demoSlug === 'custom-cnn') {
+    return <TrainPage backLink={`/category/${categoryId}`} backLabel={category.name} />
   }
 
   return (

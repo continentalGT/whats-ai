@@ -49,6 +49,39 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
         </div>
       )}
 
+      {/* Image Classification output */}
+      {!loading && !error && result && (demoSlug === 'image-classification' || demoSlug === 'cnn') && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-400">Top <span className="text-cyan-400 font-bold">{result.predictions.length}</span> predictions · <span className="text-gray-500">{result.total_classes.toLocaleString()} possible classes</span></span>
+            <span className="text-xs text-gray-600 truncate ml-2">{result.model}</span>
+          </div>
+          <div className="space-y-3">
+            {result.predictions.map((pred, i) => {
+              const pct = (pred.score * 100).toFixed(1)
+              const isTop = i === 0
+              return (
+                <div key={i} className={`rounded-xl p-4 border ${isTop ? 'bg-cyan-900/20 border-cyan-700/50' : 'bg-gray-800/50 border-gray-700/50'}`}>
+                  <div className="flex items-center justify-between mb-2 gap-3">
+                    <div className="flex items-center gap-2">
+                      {isTop && <span className="text-xs font-bold bg-cyan-600 text-white px-1.5 py-0.5 rounded">TOP</span>}
+                      <span className={`font-medium text-sm ${isTop ? 'text-white' : 'text-gray-300'}`}>{pred.label}</span>
+                    </div>
+                    <span className={`font-mono font-bold text-sm shrink-0 ${isTop ? 'text-cyan-400' : 'text-gray-400'}`}>{pct}%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-1.5">
+                    <div
+                      className={`h-1.5 rounded-full transition-all duration-500 ${isTop ? 'bg-cyan-500' : 'bg-gray-500'}`}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Object Detection output */}
       {!loading && !error && result && demoSlug === 'object-detection' && (
         <div className="space-y-6">

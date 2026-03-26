@@ -6,7 +6,7 @@ import { useDemo } from '../../hooks/useDemo'
 export default function DemoRunner({ demoSlug }) {
   const { result, loading, error, history, runDemo } = useDemo(demoSlug)
 
-  if (demoSlug === 'object-detection' || demoSlug === 'ocr') {
+  if (demoSlug === 'object-detection' || demoSlug === 'ocr' || demoSlug === 'image-classification' || demoSlug === 'cnn') {
     return (
       <div className="space-y-6">
         <InputPanel demoSlug={demoSlug} onRun={runDemo} loading={loading} hasResult={!!result} />

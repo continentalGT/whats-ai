@@ -4,6 +4,7 @@ import {
   postSemanticSearch, postKeywordSearch, postLinearSearch, postBinarySearch,
   postHeuristicSearch, postFuzzySearch, postFullTextSearch, postFacetedSearch,
   postOcr,
+  postImageClassification,
 } from '../services/api'
 
 export function useDemo(demoSlug) {
@@ -43,6 +44,8 @@ export function useDemo(demoSlug) {
         data = await postFacetedSearch(input.items, input.filters)
       } else if (demoSlug === 'ocr') {
         data = await postOcr(input.file)
+      } else if (demoSlug === 'image-classification' || demoSlug === 'cnn') {
+        data = await postImageClassification(input.file)
       } else {
         throw new Error('Demo not implemented yet')
       }

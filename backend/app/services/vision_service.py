@@ -7,6 +7,7 @@ from io import BytesIO
 _detection_pipeline = None
 _blip_processor = None
 _blip_model = None
+_classification_pipeline = None
 
 COLORS = [
     "#CC1111", "#0D7377", "#0055AA", "#228833", "#BB8800",
@@ -31,6 +32,30 @@ def get_blip_model():
     if _blip_model is None:
         _blip_model = BlipForConditionalGeneration.from_pretrained(settings.captioning_model)
     return _blip_processor, _blip_model
+
+
+def get_classification_pipeline():
+    global _classification_pipeline
+    if _classification_pipeline is None:
+        _classification_pipeline = pipeline(
+            "image-classification",
+            model=settings.classification_model,
+        )
+    return _classification_pipeline
+
+
+def classify_image(image: Image.Image, top_k: int = 5) -> dict:
+    model = get_classification_pipeline()
+    results = model(image.convert("RGB"), top_k=top_k)
+    predictions = [
+        {"label": r["label"].replace("_", " ").title(), "score": round(r["score"], 4)}
+        for r in results
+    ]
+    return {
+        "predictions": predictions,
+        "model": settings.classification_model,
+        "total_classes": 1000,
+    }
 
 
 def caption_image(image: Image.Image) -> dict:

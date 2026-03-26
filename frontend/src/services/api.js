@@ -33,6 +33,15 @@ export async function postImageCaptioning(file) {
   return res.data
 }
 
+export async function postImageClassification(file) {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await client.post('/api/vision/classify', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
 export async function postOcr(file) {
   const form = new FormData()
   form.append('file', file)

@@ -465,6 +465,37 @@ export default function InputPanel({ demoSlug, onRun, loading, hasResult }) {
     )
   }
 
+  if (demoSlug === 'image-classification' || demoSlug === 'cnn') {
+    return (
+      <div className="bg-gray-900/60 border border-gray-700/50 rounded-xl p-6">
+        <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-1">Input</h3>
+        <p className="text-xs text-gray-500 mb-4">Upload any image — ResNet-50 will predict the top 5 matching classes from 1,000 ImageNet categories.</p>
+        <form onSubmit={handleImageSubmit} className="space-y-4">
+          <label className="block cursor-pointer">
+            {preview ? (
+              <div className="relative rounded-lg overflow-hidden border-2 border-cyan-600">
+                <img src={preview} alt="Selected" className="w-full object-contain max-h-72" />
+                <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-xs text-cyan-400 px-3 py-1.5 truncate">
+                  {file.name} — click to change
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-600 hover:border-cyan-600 rounded-lg transition-colors text-gray-500">
+                <p className="text-3xl mb-2">🖼️</p>
+                <p className="text-sm">Click to upload an image</p>
+                <p className="text-xs mt-1">PNG, JPG, WEBP — any photo works</p>
+              </div>
+            )}
+            <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+          </label>
+          <Button type="submit" disabled={loading || !file} className="w-full justify-center">
+            {loading ? 'Classifying...' : 'Classify Image ▶'}
+          </Button>
+        </form>
+      </div>
+    )
+  }
+
   if (demoSlug === 'object-detection' || demoSlug === 'image-captioning') {
     const isCaption = demoSlug === 'image-captioning'
     const accentBorder = isCaption ? 'border-violet-600' : 'border-cyan-600'

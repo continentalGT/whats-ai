@@ -25,3 +25,14 @@ class ObjectDetectionResponse(BaseModel):
 class ImageCaptioningResponse(BaseModel):
     caption: str
     model: str
+
+
+class ClassificationResult(BaseModel):
+    label: str
+    score: float
+
+
+class ImageClassificationResponse(BaseModel):
+    predictions: List[ClassificationResult]
+    model: str
+    total_classes: int

@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     # HuggingFace models (sentiment analysis + vision - still local)
     sentiment_model: str = "cardiffnlp/twitter-roberta-base-sentiment-latest"
     detection_model: str = "facebook/detr-resnet-50"
+    classification_model: str = "microsoft/resnet-50"
     captioning_model: str = "Salesforce/blip-image-captioning-base"
 
     # Azure AI Foundry / Azure OpenAI (sentence similarity embeddings)
