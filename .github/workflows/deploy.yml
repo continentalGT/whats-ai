@@ -46,13 +46,33 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.ACR_LOGIN_SERVER }}/frontend:cache
           cache-to: type=registry,ref=${{ secrets.ACR_LOGIN_SERVER }}/frontend:cache,mode=max
 
+      - name: Configure Backend secrets
+        run: |
+          az containerapp secret set \
+            --name whatsai-backend \
+            --resource-group whats-ai \
+            --secrets \
+              "azure-openai-endpoint=${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
+              "azure-openai-key=${{ secrets.AZURE_OPENAI_KEY }}" \
+              "azure-multiservice-key=${{ secrets.AZURE_MULTISERVICE_KEY }}" \
+              "smtp-app-password=${{ secrets.SMTP_APP_PASSWORD }}"
+
       - name: Deploy Backend to Azure Container Apps
         run: |
           az containerapp update \
             --name whatsai-backend \
             --resource-group whats-ai \
             --image ${{ secrets.ACR_LOGIN_SERVER }}/backend:latest \
-            --revision-suffix $(date +%Y%m%d%H%M%S)
+            --revision-suffix $(date +%Y%m%d%H%M%S) \
+            --set-env-vars \
+              "AZURE_OPENAI_ENDPOINT=secretref:azure-openai-endpoint" \
+              "AZURE_OPENAI_KEY=secretref:azure-openai-key" \
+              "AZURE_OPENAI_EMBEDDING_DEPLOYMENT=${{ secrets.AZURE_OPENAI_EMBEDDING_DEPLOYMENT }}" \
+              "AZURE_OPENAI_CHAT_DEPLOYMENT=${{ secrets.AZURE_OPENAI_CHAT_DEPLOYMENT }}" \
+              "AZURE_MULTISERVICE_ENDPOINT=${{ secrets.AZURE_MULTISERVICE_ENDPOINT }}" \
+              "AZURE_MULTISERVICE_KEY=secretref:azure-multiservice-key" \
+              "SMTP_EMAIL=${{ secrets.SMTP_EMAIL }}" \
+              "SMTP_APP_PASSWORD=secretref:smtp-app-password"
 
       - name: Deploy Frontend to Azure Container Apps
         run: |
