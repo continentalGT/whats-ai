@@ -21,6 +21,11 @@ from huggingface_hub import snapshot_download; \
 snapshot_download(repo_id='Salesforce/blip-image-captioning-base'); \
 print('BLIP captioning model downloaded')"
 
+RUN python -c "\
+from transformers import pipeline; \
+pipeline('image-classification', model='microsoft/resnet-50'); \
+print('ResNet-50 classification model downloaded')"
+
 # Sentence similarity now uses Azure AI Foundry (no local model needed)
 # Lock HuggingFace to offline mode for the remaining local models
 ENV TRANSFORMERS_OFFLINE=1
