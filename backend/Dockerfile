@@ -2,6 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install PyTorch CPU-only first (from PyTorch's own index — much smaller than CUDA builds)
+RUN pip install --no-cache-dir \
+    torch==2.6.0 \
+    torchvision==0.21.0 \
+    --index-url https://download.pytorch.org/whl/cpu
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -26,8 +32,7 @@ from transformers import pipeline; \
 pipeline('image-classification', model='microsoft/resnet-50'); \
 print('ResNet-50 classification model downloaded')"
 
-# Sentence similarity now uses Azure AI Foundry (no local model needed)
-# Lock HuggingFace to offline mode for the remaining local models
+# Lock HuggingFace to offline mode so models are served from cache at runtime
 ENV TRANSFORMERS_OFFLINE=1
 ENV HF_DATASETS_OFFLINE=1
 
