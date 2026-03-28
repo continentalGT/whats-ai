@@ -3,8 +3,10 @@ import {
   postSentiment, postObjectDetection, postImageCaptioning, postSentenceSimilarity,
   postSemanticSearch, postKeywordSearch, postLinearSearch, postBinarySearch,
   postHeuristicSearch, postFuzzySearch, postFullTextSearch, postFacetedSearch,
-  postOcr,
-  postImageClassification,
+  postOcr, postImageClassification,
+  postSpeechToText, postTextToSpeech,
+  postTranslation,
+  postImageAsArray, postImageCropping, postImageSharpening, postEdgeDetection, postImageBlurring,
 } from '../services/api'
 
 export function useDemo(demoSlug) {
@@ -46,6 +48,22 @@ export function useDemo(demoSlug) {
         data = await postOcr(input.file)
       } else if (demoSlug === 'image-classification' || demoSlug === 'cnn') {
         data = await postImageClassification(input.file)
+      } else if (demoSlug === 'speech-to-text') {
+        data = await postSpeechToText(input.file)
+      } else if (demoSlug === 'text-to-speech') {
+        data = await postTextToSpeech(input.text, input.voice)
+      } else if (demoSlug === 'translation') {
+        data = await postTranslation(input.text, input.targetLang)
+      } else if (demoSlug === 'image-as-array') {
+        data = await postImageAsArray(input.file)
+      } else if (demoSlug === 'image-cropping') {
+        data = await postImageCropping(input.file, input.left, input.top, input.right, input.bottom)
+      } else if (demoSlug === 'image-sharpening') {
+        data = await postImageSharpening(input.file, input.strength, input.method)
+      } else if (demoSlug === 'edge-detection') {
+        data = await postEdgeDetection(input.file, input.algorithm)
+      } else if (demoSlug === 'image-blurring') {
+        data = await postImageBlurring(input.file, input.blurType, input.radius)
       } else {
         throw new Error('Demo not implemented yet')
       }

@@ -92,4 +92,80 @@ export async function postFacetedSearch(items, filters) {
   return res.data
 }
 
+// ── Speech ───────────────────────────────────────────────────
+export async function postSpeechToText(file) {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await client.post('/api/speech/transcribe', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
+export async function postTextToSpeech(text, voice) {
+  const res = await client.post('/api/speech/tts', { text, voice })
+  return res.data
+}
+
+// ── Translation ──────────────────────────────────────────────
+export async function postTranslation(text, targetLang) {
+  const res = await client.post('/api/nlp/translate', { text, target_lang: targetLang })
+  return res.data
+}
+
+// ── Basics of Computer Vision ────────────────────────────────
+export async function postImageAsArray(file) {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await client.post('/api/basics-cv/image-as-array', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
+export async function postImageCropping(file, left, top, right, bottom) {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('left', left)
+  form.append('top', top)
+  form.append('right', right)
+  form.append('bottom', bottom)
+  const res = await client.post('/api/basics-cv/crop', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
+export async function postImageSharpening(file, strength, method) {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('strength', strength)
+  form.append('method', method)
+  const res = await client.post('/api/basics-cv/sharpen', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
+export async function postEdgeDetection(file, algorithm) {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('algorithm', algorithm)
+  const res = await client.post('/api/basics-cv/edge-detection', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
+export async function postImageBlurring(file, blurType, radius) {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('blur_type', blurType)
+  form.append('radius', radius)
+  const res = await client.post('/api/basics-cv/blur', form, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
+
 export default client

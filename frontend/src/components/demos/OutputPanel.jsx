@@ -131,6 +131,78 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
         </div>
       )}
 
+      {/* Speech to Text output */}
+      {!loading && !error && result && demoSlug === 'speech-to-text' && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 text-sm text-gray-400">
+            <span className="text-green-400 font-bold">{result.text.split(/\s+/).filter(Boolean).length}</span> words
+            <span className="text-gray-600">·</span>
+            <span>{result.file_size_kb} KB processed</span>
+            <span className="text-xs text-gray-600 ml-auto truncate">{result.model}</span>
+          </div>
+          <div className="bg-gray-800/50 border border-green-700/40 rounded-xl p-5">
+            <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-3">Transcription</p>
+            {result.text ? (
+              <p className="text-white text-base leading-relaxed">{result.text}</p>
+            ) : (
+              <p className="text-gray-500 italic text-sm">No speech detected in the audio.</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Text to Speech output */}
+      {!loading && !error && result && demoSlug === 'text-to-speech' && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 text-sm text-gray-400">
+            <span className="text-green-400 font-bold">{result.char_count}</span> characters
+            <span className="text-gray-600">·</span>
+            <span className="text-xs text-gray-500 truncate">{result.voice}</span>
+          </div>
+          <div className="bg-gray-800/50 border border-green-700/40 rounded-xl p-5">
+            <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-4">Generated Audio</p>
+            <audio
+              controls
+              src={`data:audio/mpeg;base64,${result.audio_base64}`}
+              className="w-full"
+            />
+          </div>
+          <p className="text-xs text-gray-600 text-right">Azure Neural TTS</p>
+        </div>
+      )}
+
+      {/* Translation output */}
+      {!loading && !error && result && demoSlug === 'translation' && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-gray-500 uppercase tracking-wider">Detected language</span>
+            <span className="px-2.5 py-1 bg-violet-900/40 border border-violet-700/50 rounded-full text-xs font-semibold text-violet-300">
+              {result.detected_language_name}
+            </span>
+            <span className="text-xs text-gray-600">
+              {(result.detected_confidence * 100).toFixed(0)}% confidence
+            </span>
+          </div>
+
+          <div className="bg-gray-800/50 border border-violet-700/40 rounded-xl p-4">
+            <p className="text-xs font-semibold text-violet-400 uppercase tracking-wider mb-2">Translation</p>
+            <p className="text-white text-base leading-relaxed">{result.translated_text}</p>
+          </div>
+
+          {result.transliteration && (
+            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Transliteration (Romanized)</p>
+              <p className="text-gray-300 text-base leading-relaxed italic">{result.transliteration}</p>
+            </div>
+          )}
+
+          <div className="flex items-center justify-between text-xs text-gray-600">
+            <span>{result.word_count} word{result.word_count !== 1 ? 's' : ''} translated</span>
+            <span>Azure Translator · {result.target_language}</span>
+          </div>
+        </div>
+      )}
+
       {/* Sentence Similarity output */}
       {!loading && !error && result && demoSlug === 'sentence-similarity' && (
         <div className="space-y-4">
@@ -448,6 +520,164 @@ export default function OutputPanel({ result, loading, error, demoSlug }) {
               <p className="text-sm">No text detected in this image</p>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Image as Array output ── */}
+      {!loading && !error && result && demoSlug === 'image-as-array' && (
+        <div className="space-y-5">
+          <div className="grid grid-cols-3 gap-3 text-center">
+            {[
+              { label: 'Width', value: `${result.width}px` },
+              { label: 'Height', value: `${result.height}px` },
+              { label: 'Channels', value: result.channels },
+              { label: 'Mode', value: result.mode },
+              { label: 'Total Pixels', value: result.total_pixels.toLocaleString() },
+              { label: 'Shape', value: `(${result.height}, ${result.width}, ${result.channels})` },
+            ].map(({ label, value }) => (
+              <div key={label} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-3">
+                <p className="text-xs text-gray-500 mb-1">{label}</p>
+                <p className="text-sky-400 font-mono font-bold text-sm">{value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Per-Channel Stats (uint8)</p>
+            <div className="space-y-2">
+              {result.channel_stats.map(({ channel, min, max, mean }) => {
+                const barColors = { R: 'bg-red-500', G: 'bg-green-500', B: 'bg-blue-500' }
+                return (
+                  <div key={channel} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`font-bold text-sm font-mono ${channel === 'R' ? 'text-red-400' : channel === 'G' ? 'text-green-400' : 'text-blue-400'}`}>Channel {channel}</span>
+                      <div className="flex gap-4 text-xs font-mono text-gray-400">
+                        <span>min=<span className="text-white">{min}</span></span>
+                        <span>max=<span className="text-white">{max}</span></span>
+                        <span>mean=<span className="text-white">{mean}</span></span>
+                      </div>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-1.5">
+                      <div className={`h-1.5 rounded-full ${barColors[channel]}`} style={{ width: `${(mean / 255 * 100).toFixed(1)}%` }} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">8×8 Pixel Sample Grid</p>
+            <p className="text-xs text-gray-600 mb-2">Image resized to 8×8 — each cell shows actual RGB color</p>
+            <div className="grid gap-0.5" style={{ gridTemplateColumns: 'repeat(8, 1fr)' }}>
+              {result.sample_grid.flat().map(([r, g, b], i) => (
+                <div key={i}
+                  title={`R:${r} G:${g} B:${b}`}
+                  className="aspect-square rounded-sm cursor-default"
+                  style={{ backgroundColor: `rgb(${r},${g},${b})` }}
+                />
+              ))}
+            </div>
+            <p className="text-xs text-gray-600 mt-1">Hover a cell to see RGB values</p>
+          </div>
+
+          {result.original_image && (
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Original Image</p>
+              <img src={result.original_image} alt="Original" className="w-full rounded-lg border border-gray-700" />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Image Cropping output ── */}
+      {!loading && !error && result && demoSlug === 'image-cropping' && (
+        <div className="space-y-5">
+          <div className="grid grid-cols-2 gap-3 text-center">
+            {[
+              { label: 'Original Size', value: `${result.original_width} × ${result.original_height}` },
+              { label: 'Cropped Size', value: `${result.cropped_width} × ${result.cropped_height}` },
+              { label: 'Crop Start', value: `(${result.crop_x1}, ${result.crop_y1})` },
+              { label: 'Crop End', value: `(${result.crop_x2}, ${result.crop_y2})` },
+            ].map(({ label, value }) => (
+              <div key={label} className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-3">
+                <p className="text-xs text-gray-500 mb-1">{label}</p>
+                <p className="text-sky-400 font-mono font-bold text-sm">{value}</p>
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Original</p>
+              <img src={result.original_image} alt="Original" className="w-full rounded-lg border border-gray-700" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Cropped</p>
+              <img src={result.cropped_image} alt="Cropped" className="w-full rounded-lg border border-sky-700" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Image Sharpening output ── */}
+      {!loading && !error && result && demoSlug === 'image-sharpening' && (
+        <div className="space-y-5">
+          <div className="flex gap-4 text-sm">
+            <span className="text-gray-400">Method: <span className="text-sky-400 font-medium">{result.method}</span></span>
+            <span className="text-gray-400">Strength: <span className="text-sky-400 font-bold">{result.strength}/5</span></span>
+            <span className="text-gray-600 text-xs ml-auto">{result.width}×{result.height}</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Original</p>
+              <img src={result.original_image} alt="Original" className="w-full rounded-lg border border-gray-700" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-sky-400 uppercase tracking-wider mb-2">Sharpened</p>
+              <img src={result.sharpened_image} alt="Sharpened" className="w-full rounded-lg border border-sky-700" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Edge Detection output ── */}
+      {!loading && !error && result && demoSlug === 'edge-detection' && (
+        <div className="space-y-5">
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-gray-400">Algorithm: <span className="text-sky-400 font-medium">{result.algorithm}</span></span>
+            <span className="text-gray-600 text-xs ml-auto">{result.width}×{result.height}</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Original</p>
+              <img src={result.original_image} alt="Original" className="w-full rounded-lg border border-gray-700" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-sky-400 uppercase tracking-wider mb-2">Edges Detected</p>
+              <img src={result.edge_image} alt="Edge Detected" className="w-full rounded-lg border border-sky-700" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Image Blurring output ── */}
+      {!loading && !error && result && demoSlug === 'image-blurring' && (
+        <div className="space-y-5">
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-gray-400">Type: <span className="text-sky-400 font-medium">{result.blur_type}</span></span>
+            <span className="text-gray-400">Radius: <span className="text-sky-400 font-bold">{result.radius}px</span></span>
+            <span className="text-gray-600 text-xs ml-auto">{result.width}×{result.height}</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Original</p>
+              <img src={result.original_image} alt="Original" className="w-full rounded-lg border border-gray-700" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-sky-400 uppercase tracking-wider mb-2">Blurred</p>
+              <img src={result.blurred_image} alt="Blurred" className="w-full rounded-lg border border-sky-700" />
+            </div>
+          </div>
         </div>
       )}
 

@@ -20,9 +20,17 @@ class Settings(BaseSettings):
     azure_openai_embedding_deployment: str = "text-embedding-3-small"
     azure_openai_chat_deployment: str = "gpt-4o-mini"
 
-    # Azure AI Multi-Service Account (OCR, Vision, Language, etc.)
+    # Azure AI Multi-Service Account (OCR, Vision, Language, Translator, etc.)
     azure_multiservice_endpoint: str = ""
     azure_multiservice_key: str = ""
+    azure_multiservice_region: str = "eastus2"
+
+    # Azure Speech Service (TTS)
+    azure_speech_key: str = ""
+    azure_speech_region: str = "eastus2"
+
+    # Whisper (STT)
+    whisper_model: str = "openai/whisper-base"
 
     # Gmail SMTP (contact form)
     smtp_email: str = ""

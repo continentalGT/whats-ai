@@ -10,6 +10,7 @@ export const WORKLOAD_CATEGORIES = [
     demos: [
       { slug: 'sentiment', name: 'Sentiment Analysis', active: true },
       { slug: 'sentence-similarity', name: 'Sentence Similarity', active: true },
+      { slug: 'translation', name: 'Translation', active: true },
       { slug: 'text-classification', name: 'Text Classification', active: false },
       { slug: 'ner', name: 'Named Entity Recognition', active: false },
       { slug: 'topic-modeling', name: 'Topic Modeling', active: false },
@@ -33,6 +34,19 @@ export const WORKLOAD_CATEGORIES = [
       { slug: 'image-classification', name: 'Image Classification (ResNet-50)', active: true },
       { slug: 'object-detection', name: 'Object Detection (ResNet-50)', active: true },
       { slug: 'image-captioning', name: 'Image Captioning (BLIP)', active: true },
+      {
+        slug: 'basics-cv',
+        name: 'Basics of Computer Vision',
+        isGroup: true,
+        active: true,
+        subDemos: [
+          { slug: 'image-as-array', name: 'Image as Array', active: true },
+          { slug: 'image-cropping', name: 'Image Cropping', active: true },
+          { slug: 'image-sharpening', name: 'Image Sharpening', active: true },
+          { slug: 'edge-detection', name: 'Edge Detection', active: true },
+          { slug: 'image-blurring', name: 'Image Blurring', active: true },
+        ],
+      },
       { slug: 'face-detection', name: 'Face Detection', active: false },
       { slug: 'emotion-detection', name: 'Emotion Detection', active: false },
       { slug: 'image-generation', name: 'Image Generation', active: false },
@@ -49,8 +63,8 @@ export const WORKLOAD_CATEGORIES = [
     borderColor: 'border-green-500',
     description: 'Convert, analyze, and generate speech and audio signals.',
     demos: [
-      { slug: 'speech-to-text', name: 'Speech to Text', active: false },
-      { slug: 'text-to-speech', name: 'Text to Speech', active: false },
+      { slug: 'speech-to-text', name: 'Speech to Text (Whisper)', active: true },
+      { slug: 'text-to-speech', name: 'Text to Speech (Azure Neural)', active: true },
       { slug: 'speaker-identification', name: 'Speaker Identification', active: false },
       { slug: 'voice-cloning', name: 'Voice Cloning', active: false },
       { slug: 'sound-classification', name: 'Sound Classification', active: false },

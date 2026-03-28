@@ -6,9 +6,10 @@ import CategoryPage from './pages/CategoryPage'
 import DemoPage from './pages/DemoPage'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
-import ShopPage from './pages/ShopPage'
 import ContactPage from './pages/ContactPage'
 import TrainPage from './pages/TrainPage'
+import SubCategoryPage from './pages/SubCategoryPage'
+import ShopPage from './pages/ShopPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/category/:id" element={<CategoryPage />} />
+          <Route path="/category/:categoryId/:groupSlug" element={<SubCategoryPage />} />
           <Route path="/demo/:categoryId/:demoSlug" element={<DemoPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/about" element={<AboutPage />} />

@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.routes import nlp, vision, search, document, misc, train
+from app.api.routes import nlp, vision, search, document, misc, train, basics_cv, speech
 from app.core.config import settings
 
 
@@ -28,6 +28,8 @@ app.include_router(search.router, prefix="/api/search", tags=["Search"])
 app.include_router(document.router, prefix="/api/document", tags=["Document"])
 app.include_router(misc.router, prefix="/api/misc", tags=["Misc"])
 app.include_router(train.router, prefix="/api/train", tags=["Train"])
+app.include_router(basics_cv.router, prefix="/api/basics-cv", tags=["Basics CV"])
+app.include_router(speech.router, prefix="/api/speech", tags=["Speech"])
 
 
 @app.get("/")
