@@ -55,7 +55,8 @@ jobs:
               "azure-openai-endpoint=${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
               "azure-openai-key=${{ secrets.AZURE_OPENAI_KEY }}" \
               "azure-multiservice-key=${{ secrets.AZURE_MULTISERVICE_KEY }}" \
-              "smtp-app-password=${{ secrets.SMTP_APP_PASSWORD }}"
+              "smtp-app-password=${{ secrets.SMTP_APP_PASSWORD }}" \
+              "database-url=${{ secrets.DATABASE_URL }}"
 
       - name: Deploy Backend to Azure Container Apps
         run: |
@@ -72,7 +73,8 @@ jobs:
               "AZURE_MULTISERVICE_ENDPOINT=${{ secrets.AZURE_MULTISERVICE_ENDPOINT }}" \
               "AZURE_MULTISERVICE_KEY=secretref:azure-multiservice-key" \
               "SMTP_EMAIL=${{ secrets.SMTP_EMAIL }}" \
-              "SMTP_APP_PASSWORD=secretref:smtp-app-password"
+              "SMTP_APP_PASSWORD=secretref:smtp-app-password" \
+              "DATABASE_URL=secretref:database-url"
 
       - name: Deploy Frontend to Azure Container Apps
         run: |

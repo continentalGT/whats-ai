@@ -31,3 +31,6 @@ Thumbs.db
 
 # Docker
 *.log
+
+# Internal project docs
+about project/

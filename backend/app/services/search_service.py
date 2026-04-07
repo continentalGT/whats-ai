@@ -7,23 +7,17 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 from app.core.config import settings
 
-# ── Shared embeddings client (reused from nlp_service pattern) ──
-_embeddings_client = None
 
-
-def _get_embeddings_client():
-    from azure.ai.inference import EmbeddingsClient
-    from azure.core.credentials import AzureKeyCredential
-
-    global _embeddings_client
-    if _embeddings_client is None:
-        endpoint = settings.azure_openai_endpoint.rstrip("/")
-        deployment = settings.azure_openai_embedding_deployment
-        _embeddings_client = EmbeddingsClient(
-            endpoint=f"{endpoint}/openai/deployments/{deployment}",
-            credential=AzureKeyCredential(settings.azure_openai_key),
-        )
-    return _embeddings_client
+def _get_embeddings(texts):
+    import requests as _req
+    endpoint = settings.azure_openai_endpoint.rstrip("/")
+    deployment = settings.azure_openai_embedding_deployment
+    url = f"{endpoint}/openai/deployments/{deployment}/embeddings?api-version=2024-02-01"
+    headers = {"Content-Type": "application/json", "api-key": settings.azure_openai_key}
+    resp = _req.post(url, headers=headers, json={"input": texts}, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+    return [item["embedding"] for item in sorted(data["data"], key=lambda x: x["index"])]
 
 
 def _cosine_similarity(a: List[float], b: List[float]) -> float:
@@ -37,10 +31,8 @@ def _cosine_similarity(a: List[float], b: List[float]) -> float:
 
 # ── 1. Semantic Search ───────────────────────────────────────
 def semantic_search(sentences: List[str], query: str, k: int) -> dict:
-    client = _get_embeddings_client()
     all_texts = [query] + sentences
-    response = client.embed(input=all_texts)
-    embeddings = [item.embedding for item in sorted(response.data, key=lambda x: x.index)]
+    embeddings = _get_embeddings(all_texts)
     query_emb = embeddings[0]
     sent_embs = embeddings[1:]
 

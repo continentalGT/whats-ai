@@ -12,25 +12,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download models at build time (online mode)
-RUN python -c "\
-from transformers import pipeline; \
-pipeline('sentiment-analysis', model='cardiffnlp/twitter-roberta-base-sentiment-latest'); \
-print('Sentiment model downloaded')"
-
-RUN python -c "\
-from transformers import pipeline; \
-pipeline('object-detection', model='facebook/detr-resnet-50'); \
-print('DETR model downloaded')"
-
-RUN python -c "\
-from huggingface_hub import snapshot_download; \
-snapshot_download(repo_id='Salesforce/blip-image-captioning-base'); \
-print('BLIP captioning model downloaded')"
-
-RUN python -c "\
-from transformers import pipeline; \
-pipeline('image-classification', model='microsoft/resnet-50'); \
-print('ResNet-50 classification model downloaded')"
+COPY preload_models.py .
+RUN python preload_models.py
 
 # Lock HuggingFace to offline mode so models are served from cache at runtime
 ENV TRANSFORMERS_OFFLINE=1

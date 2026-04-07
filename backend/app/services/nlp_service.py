@@ -1,13 +1,10 @@
 from transformers import pipeline
-from azure.ai.inference import EmbeddingsClient
-from azure.core.credentials import AzureKeyCredential
 from app.core.config import settings
 from typing import List, Optional
 import numpy as np
 import requests as http_requests
 
 _sentiment_pipeline = None
-_embeddings_client = None
 
 
 def get_sentiment_pipeline():
@@ -20,16 +17,18 @@ def get_sentiment_pipeline():
     return _sentiment_pipeline
 
 
-def get_embeddings_client() -> EmbeddingsClient:
-    global _embeddings_client
-    if _embeddings_client is None:
-        endpoint = settings.azure_openai_endpoint.rstrip("/")
-        deployment = settings.azure_openai_embedding_deployment
-        _embeddings_client = EmbeddingsClient(
-            endpoint=f"{endpoint}/openai/deployments/{deployment}",
-            credential=AzureKeyCredential(settings.azure_openai_key),
-        )
-    return _embeddings_client
+def _get_embeddings(texts: List[str]) -> List[List[float]]:
+    endpoint = settings.azure_openai_endpoint.rstrip("/")
+    deployment = settings.azure_openai_embedding_deployment
+    url = f"{endpoint}/openai/deployments/{deployment}/embeddings?api-version=2024-02-01"
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": settings.azure_openai_key,
+    }
+    resp = http_requests.post(url, headers=headers, json={"input": texts}, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+    return [item["embedding"] for item in sorted(data["data"], key=lambda x: x["index"])]
 
 
 def _cosine_similarity(a: List[float], b: List[float]) -> float:
@@ -39,11 +38,8 @@ def _cosine_similarity(a: List[float], b: List[float]) -> float:
 
 
 def compute_similarity(sentences: List[str], query: str) -> dict:
-    client = get_embeddings_client()
     all_texts = [query] + sentences
-    response = client.embed(input=all_texts)
-
-    embeddings = [item.embedding for item in sorted(response.data, key=lambda x: x.index)]
+    embeddings = _get_embeddings(all_texts)
     query_embedding = embeddings[0]
     sentence_embeddings = embeddings[1:]
 
