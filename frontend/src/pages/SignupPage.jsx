@@ -115,21 +115,24 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-gray-700" />
-            <span className="text-xs text-gray-500">or continue with</span>
-            <div className="flex-1 h-px bg-gray-700" />
-          </div>
-
-          <div className="flex justify-center">
-            <GoogleLogin
-              onSuccess={handleGoogle}
-              onError={() => setError('Google login failed.')}
-              theme="filled_black"
-              shape="pill"
-              text="signup_with"
-            />
-          </div>
+          {import.meta.env.VITE_GOOGLE_CLIENT_ID && (
+            <>
+              <div className="flex items-center gap-3 my-6">
+                <div className="flex-1 h-px bg-gray-700" />
+                <span className="text-xs text-gray-500">or continue with</span>
+                <div className="flex-1 h-px bg-gray-700" />
+              </div>
+              <div className="flex justify-center">
+                <GoogleLogin
+                  onSuccess={handleGoogle}
+                  onError={() => setError('Google login failed.')}
+                  theme="filled_black"
+                  shape="pill"
+                  text="signup_with"
+                />
+              </div>
+            </>
+          )}
 
           <p className="text-center text-sm text-gray-400 mt-6">
             Already have an account?{' '}
