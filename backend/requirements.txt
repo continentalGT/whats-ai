@@ -7,15 +7,6 @@ pydantic-settings==2.9.1
 httpx==0.28.1
 requests==2.33.0
 
-# Auth
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-sqlalchemy==2.0.40
-psycopg2-binary==2.9.10
-google-auth==2.40.1
-google-auth-httplib2==0.2.0
-email-validator==2.2.0
-
 # Azure
 azure-ai-vision-imageanalysis==1.0.0
 azure-ai-inference>=1.0.0b7

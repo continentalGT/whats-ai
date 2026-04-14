@@ -38,19 +38,6 @@ class Settings(BaseSettings):
 
     cors_origins: list[str] = ["http://localhost:3000", "http://localhost:5173"]
 
-    # Database (SQLite by default; override with DATABASE_URL for PostgreSQL)
-    database_url: str = "sqlite:///./whats_ai.db"
-
-    # JWT
-    jwt_secret_key: str = "CHANGE_ME_use_a_long_random_secret_for_access_tokens_min_32_chars"
-    jwt_refresh_secret_key: str = "CHANGE_ME_use_a_different_long_random_secret_for_refresh_tokens"
-    jwt_algorithm: str = "HS256"
-    jwt_access_token_expire_seconds: int = 900        # 15 minutes
-    jwt_refresh_token_expire_days: int = 7
-
-    # Google OAuth
-    google_client_id: str = ""   # from Google Cloud Console
-
     class Config:
         env_file = _ENV_FILE
 
