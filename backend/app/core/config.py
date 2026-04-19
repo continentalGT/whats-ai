@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # Whisper (STT)
     whisper_model: str = "openai/whisper-base"
 
+    # Azure Storage (guest leads table)
+    azure_storage_connection_string: str = ""
+
     # Gmail SMTP (contact form)
     smtp_email: str = ""
     smtp_app_password: str = ""

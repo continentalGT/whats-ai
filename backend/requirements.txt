@@ -10,6 +10,7 @@ requests==2.33.0
 # Azure
 azure-ai-vision-imageanalysis==1.0.0
 azure-ai-inference>=1.0.0b7
+azure-data-tables>=12.5.0
 azure-core==1.39.0
 azure-identity>=1.19.0
 openai>=1.0.0

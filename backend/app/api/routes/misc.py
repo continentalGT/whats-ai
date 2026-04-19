@@ -1,13 +1,14 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.core.config import settings
+from app.db import insert_lead, list_leads
 
 router = APIRouter()
 
@@ -91,3 +92,21 @@ async def did_you_know():
         return {"fact": fact, "model": settings.azure_openai_chat_deployment}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate fact: {str(e)}")
+
+
+class GuestSignupRequest(BaseModel):
+    name: str
+    email: EmailStr
+
+
+@router.post("/guest-signup")
+async def guest_signup(body: GuestSignupRequest, request: Request):
+    ip = request.client.host if request.client else None
+    inserted = insert_lead(body.name.strip(), body.email.lower(), ip)
+    return {"success": True, "new": inserted}
+
+
+@router.get("/guest-leads")
+async def guest_leads():
+    """Returns all collected guest leads (name, email, ip, timestamp)."""
+    return {"leads": list_leads()}
